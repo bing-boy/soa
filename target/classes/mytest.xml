@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:bing="http://www.bing.com/schema/soa"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+    	http://www.bing.com/schema/soa
+    	http://www.bing.com/schema/soa.xsd" default-lazy-init="true">
+
+    <bean id="userService" class="com.bing.test.TestServiceImpl"></bean>
+    <bing:registry protocol="redis" address="192.168.1.15:6379"></bing:registry>
+    <bing:service interface="com.bing.test.UserServiceImpl" protocol="http" ref="userService"></bing:service>
+    <!-- <bing:reference id="testService" interface="com.bing.test.TestService" protocol="http" loadbalance="random"></bing:reference> -->
+    <bing:protocol name="http" host="127.0.0.1" port="27017"></bing:protocol>
+    
+</beans>
