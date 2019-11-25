@@ -25,7 +25,7 @@ public class RandomLoadBalance implements LoadBalance {
 		NodeInfo nodeInfo = new NodeInfo();
 		nodeInfo.setHost(protocol.get("host") != null ? protocol.getString("host") : "");
 		nodeInfo.setProt(protocol.get("port") != null ? protocol.getString("port") : "");
-		nodeInfo.setContextPath(protocol.get("context") != null ? protocol.getString("context") : "");
+		nodeInfo.setContextPath(protocol.get("contextpath") != null ? protocol.getString("contextpath") : "");
 		return nodeInfo;
 	}
 

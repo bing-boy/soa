@@ -22,6 +22,7 @@ public class ProtocolBeanDefinitionParser implements BeanDefinitionParser {
 		String name = element.getAttribute("name");
 		String host = element.getAttribute("host");
 		String port = element.getAttribute("port");
+		String contextpath = element.getAttribute("contextpath");
 		
 		if(name == null || "".equals(name)) {
 			throw new RuntimeException("Protocol name 不能为空");
@@ -36,6 +37,7 @@ public class ProtocolBeanDefinitionParser implements BeanDefinitionParser {
 		beanDefinition.getPropertyValues().add("name", name);
 		beanDefinition.getPropertyValues().add("host", host);
 		beanDefinition.getPropertyValues().add("port", port);
+		beanDefinition.getPropertyValues().add("contextpath", contextpath);
 		parserContext.getRegistry().registerBeanDefinition("Protocol" + name, beanDefinition);
 		return beanDefinition;
 	}

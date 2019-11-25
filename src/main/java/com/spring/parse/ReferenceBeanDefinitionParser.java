@@ -24,6 +24,8 @@ public class ReferenceBeanDefinitionParser implements BeanDefinitionParser {
 		String intf = element.getAttribute("interface");
 		String protocol = element.getAttribute("protocol");
 		String loadbalance = element.getAttribute("loadbalance");
+		String cluster = element.getAttribute("cluster");
+		String retries = element.getAttribute("retries");
 		
 		if(id == null || "".equals(id)) {
 			throw new RuntimeException("Reference id 不能为空");
@@ -37,12 +39,20 @@ public class ReferenceBeanDefinitionParser implements BeanDefinitionParser {
 		if (loadbalance == null || "".equals(loadbalance)) {
 			throw new RuntimeException("Reference loadbalance 不能为空");
 		}
+		if (cluster == null || "".equals(cluster)) {
+			throw new RuntimeException("Reference cluster 不能为空");
+		}
+		if (retries == null || "".equals(retries)) {
+			throw new RuntimeException("Reference retries 不能为空");
+		}
 		
 		MutablePropertyValues propertyValues = beanDefinition.getPropertyValues();
 		beanDefinition.getPropertyValues().add("id", id);
 		beanDefinition.getPropertyValues().add("intf", intf);
 		beanDefinition.getPropertyValues().add("protocol", protocol);
 		beanDefinition.getPropertyValues().add("loadbalance", loadbalance);
+		beanDefinition.getPropertyValues().add("cluster", cluster);
+		beanDefinition.getPropertyValues().add("retries", retries);
 		parserContext.getRegistry().registerBeanDefinition("Reference" + id, beanDefinition);
 		return beanDefinition;
 	}

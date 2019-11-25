@@ -13,12 +13,18 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
+import com.cluster.Cluster;
+import com.cluster.FailFastCluster;
+import com.cluster.FailOverCluster;
+import com.cluster.FailSafeCluster;
 import com.loadbalance.LoadBalance;
 import com.loadbalance.RandomLoadBalance;
 import com.loadbalance.RoundRobinLoadBalance;
 import com.proxy.advice.InvokeInvocationHandler;
 import com.proxy.invoke.HttpInvoke;
 import com.proxy.invoke.Invoke;
+import com.proxy.invoke.NettyInvoke;
+import com.proxy.invoke.RmiInvoke;
 import com.registry.BaseRegistryDelegate;
 
 /**
@@ -41,6 +47,8 @@ public class Reference extends BaseConfigBean
 	private String intf;
 	private String protocol;
 	private String loadbalance;
+	private String cluster;
+	private String retries;
 
 	private Invoke invoke; // 表明该Reference的调用者是哪个
 
@@ -52,13 +60,20 @@ public class Reference extends BaseConfigBean
 	//负载均衡
 	private static Map<String, LoadBalance> loadBalances = new HashMap<>();
 
+	//集群容错
+	private static Map<String, Cluster> clusters = new HashMap<>();
+
 	static {
 		invokes.put("http", new HttpInvoke());
-		invokes.put("rmi", null);
-		invokes.put("netty", null);
+		invokes.put("rmi", new RmiInvoke());
+		invokes.put("netty", new NettyInvoke());
 
 		loadBalances.put("random", new RandomLoadBalance());
 		loadBalances.put("roundrob", new RoundRobinLoadBalance());
+
+		clusters.put("failover", new FailOverCluster());
+		clusters.put("failfast", new FailFastCluster());
+		clusters.put("failsafe", new FailSafeCluster());
 	}
 
 	private ApplicationContext applicationContext;
@@ -71,7 +86,7 @@ public class Reference extends BaseConfigBean
 	/*
 	 * getObject方法会拿到一个实例，这个方法是Spring调用的，spring初始化的时候调用的，具体是getBean方法调用的
 	 * 
-	 * ApplicationContext.getBean("id");这个过程就回调用getObject,只要涉及到getBean的调用，
+	 * ApplicationContext.getBean("id");这个过程就会调用getObject,只要涉及到getBean的调用，
 	 * 就会调到getObject，不管是哪个类实现了FactoryBean， 调用getBean,就会调用到getObject
 	 * 
 	 * 这里在getObject方法里面，返回的就是intf这个接口的代理
@@ -159,4 +174,29 @@ public class Reference extends BaseConfigBean
 	public static void setLoadBalances(Map<String, LoadBalance> loadBalances) {
 		Reference.loadBalances = loadBalances;
 	}
+
+	public String getCluster() {
+		return cluster;
+	}
+
+	public void setCluster(String cluster) {
+		this.cluster = cluster;
+	}
+
+	public String getRetries() {
+		return retries;
+	}
+
+	public void setRetries(String retries) {
+		this.retries = retries;
+	}
+
+	public static Map<String, Cluster> getClusters() {
+		return clusters;
+	}
+
+	public static void setClusters(Map<String, Cluster> clusters) {
+		Reference.clusters = clusters;
+	}
+
 }

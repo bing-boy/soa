@@ -12,6 +12,8 @@ public class Invocation {
 
 	private Reference reference; //消费者要从多个reference中选择一个provider进行调用，这些是封装在reference中的，所以这里塞一个reference,在invokeInvocationHandler的invoke中，就可以设置调用setReference了
 
+	private Invoke invoke; //集群容错Cluste中有传参invokation,所以invoke塞入这里
+
 	public Invocation() {
 		// TODO Auto-generated constructor stub
 	}
@@ -39,4 +41,13 @@ public class Invocation {
 	public void setReference(Reference reference) {
 		this.reference = reference;
 	}
+
+	public Invoke getInvoke() {
+		return invoke;
+	}
+
+	public void setInvoke(Invoke invoke) {
+		this.invoke = invoke;
+	}
+
 }

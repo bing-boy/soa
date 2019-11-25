@@ -3,7 +3,6 @@ package com.redis;
 import java.util.Properties;
 
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
-import org.junit.Test;
 
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
@@ -18,7 +17,6 @@ public class JedisPoolTest {
 	public static JedisPool jedisPool = new JedisPool(poolConfig, Host, Port, 10000, Password);
 
 	//new JedisPool(poolConfig, Host, Port, 0, Password);
-	@Test
 	public void connectTest() {
 		Jedis jedis = jedisPool.getResource();
 		//jedis.auth(Password);

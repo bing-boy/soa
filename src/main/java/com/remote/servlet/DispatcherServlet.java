@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
 import org.springframework.context.ApplicationContext;
 
 import com.alibaba.fastjson.JSONArray;
@@ -26,14 +27,15 @@ public class DispatcherServlet extends HttpServlet {
 	 * soa框架中给生产者接收请求用的servlet,必须采用http协议才能调用得到
 	 */
 	private static final long serialVersionUID = 2032504385032L;
+	private static final Logger logger = org.slf4j.LoggerFactory.getLogger(DispatcherServlet.class);
 	
 	@Override
 	protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		try {
 			JSONObject requestParam = httpProcess(req, resp);
-			//要从远程的胜差这的spring容器中拿到对应的serviceid实例
+			//要从远程的生产者的spring容器中拿到对应的serviceid实例
 			String serviceId = requestParam.getString("serviceId");
-			String methodName = requestParam.getString("methodNmae");
+			String methodName = requestParam.getString("methodName");
 			JSONArray paramTypes = requestParam.getJSONArray("paramTypes");
 			//这个是对应的方法参数
 			JSONArray methodParamJa = requestParam.getJSONArray("methodParams");
@@ -118,6 +120,7 @@ public class DispatcherServlet extends HttpServlet {
 		if (sb.toString().length() <= 0) {
 			return null;
 		} else {
+			logger.debug("解析http：" + sb.toString());
 			return JSONObject.parseObject(sb.toString());
 		}
 	}

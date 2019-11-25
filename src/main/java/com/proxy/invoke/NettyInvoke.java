@@ -6,13 +6,9 @@ import com.alibaba.fastjson.JSONObject;
 import com.configbean.Reference;
 import com.loadbalance.LoadBalance;
 import com.loadbalance.NodeInfo;
-import com.rpc.http.HttpRequest;
+import com.netty.NettyUtil;
 
-/**
- * http的调用过程
- */
-
-public class HttpInvoke implements Invoke {
+public class NettyInvoke implements Invoke {
 
 	@Override
 	public String invoke(Invocation invocation) throws Exception {
@@ -30,16 +26,11 @@ public class HttpInvoke implements Invoke {
 			sendParam.put("methodName", invocation.getMethod().getName()); //要调用的远程方法
 			sendParam.put("methodParams", invocation.getObjects());
 			sendParam.put("serviceId", reference.getId()); //从远程生产者spring容器中拿到serviceId对应的服务层的实例，通过方法的名称和方法的类型，可以找到方法的method对象，就可以通过反射调到方法了 
-			sendParam.put("paramTypes", invocation.getMethod().getParameterTypes());
 
-			String url = "http://" + nodeInfo.getHost() + ":" + nodeInfo.getProt() + nodeInfo.getContextPath();
-
-			//调用对端的生产者服务
-			String result = HttpRequest.sendPost(url, sendParam.toJSONString());
-			return result;
+			String sendMsg = NettyUtil.sendMsg(nodeInfo.getHost(), nodeInfo.getProt(), sendParam.toJSONString());
+			return sendMsg;
 		} catch (Exception e) {
-			throw e; //这里不e.printStackTrace();打印异常了，将异常往上抛，会在调用此方法的Cluster实现类里面去打印，比如如果是FailOverCluster容错模式调用了该方法，发生异常时，往上抛，会在FailOverCluster调用invoke方法时捕获异常并打印
+			throw e;
 		}
 	}
-
 }

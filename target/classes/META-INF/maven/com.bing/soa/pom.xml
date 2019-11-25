@@ -12,10 +12,10 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<spring.version>4.0.3.RELEASE</spring.version>
+		<spring.version>4.3.12.RELEASE</spring.version>
 		<aspectj.version>1.7.1</aspectj.version>
-		<jackson.version>2.1.4</jackson.version>
-		<org.springframework.version>3.2.2.RELEASE</org.springframework.version>
+		<jackson.version>2.9.9</jackson.version>
+		<org.springframework.version>4.3.12.RELEASE</org.springframework.version>
 		<hbase.version>1.2.3</hbase.version>
 	</properties>
 	<dependencies>
@@ -76,7 +76,7 @@
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-core</artifactId>
-			<version>2.0.0</version>
+			<version>${jackson.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.codehaus.jackson</groupId>
@@ -219,6 +219,17 @@
 			<artifactId>servlet-api</artifactId>
 			<version>2.5</version>
 			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>2.9.9.3</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>io.netty</groupId>
+			<artifactId>netty-all</artifactId>
+			<version>5.0.0.Alpha2</version>
 		</dependency>
 
 		<!-- <dependency>

@@ -1,7 +1,5 @@
 package com.redis;
 
-import org.junit.Test;
-
 import redis.clients.jedis.Jedis;
 
 public class JedisTest {
@@ -10,7 +8,6 @@ public class JedisTest {
 	public static String Password = "redis";
 	public static Jedis jedis = new Jedis(Host, Port);
 
-	@Test
 	public void connectTest() {
 		jedis.auth(Password);
 		//jedis.connect();
@@ -18,7 +15,6 @@ public class JedisTest {
 		System.out.println(redispass);
 	}
 
-	@Test
 	public void lpushTest() {
 		jedis.auth(Password);
 		System.out.println(jedis.lpush("bing", "name:bing", "age:22"));

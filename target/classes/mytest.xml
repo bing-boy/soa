@@ -8,7 +8,7 @@
     	http://www.bing.com/schema/soa.xsd" default-lazy-init="true">
 
     <bean id="userService" class="com.bing.test.TestServiceImpl"></bean>
-    <bing:registry protocol="redis" address="192.168.1.15:6379"></bing:registry>
+    <bing:registry protocol="redis" address="192.168.1.119:6379"></bing:registry>
     <bing:service interface="com.bing.test.UserServiceImpl" protocol="http" ref="userService"></bing:service>
     <!-- <bing:reference id="testService" interface="com.bing.test.TestService" protocol="http" loadbalance="random"></bing:reference> -->
     <bing:protocol name="http" host="127.0.0.1" port="27017"></bing:protocol>

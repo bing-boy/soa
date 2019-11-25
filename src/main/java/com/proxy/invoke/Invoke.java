@@ -6,5 +6,5 @@ package com.proxy.invoke;
  * 为了方便，不封装成对象了，返回String，用json的方式进行通信
  */
 public interface Invoke {
-	public String invoke(Invocation invocation);
+	public String invoke(Invocation invocation) throws Exception;
 }

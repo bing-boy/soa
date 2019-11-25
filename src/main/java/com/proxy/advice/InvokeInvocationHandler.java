@@ -3,6 +3,7 @@ package com.proxy.advice;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 
+import com.cluster.Cluster;
 import com.configbean.Reference;
 import com.proxy.invoke.Invocation;
 import com.proxy.invoke.Invoke;
@@ -31,7 +32,10 @@ public class InvokeInvocationHandler implements InvocationHandler {
 		invocation.setMethod(method);
 		invocation.setObjects(args);
 		invocation.setReference(reference);
-		String result = invoke.invoke(invocation);
+		// String result = invoke.invoke(invocation); //加入集群容错cluster后这里不能直接调用了，需要拿到cluster
+		invocation.setInvoke(invoke);
+		Cluster cluster = reference.getClusters().get(reference.getCluster());
+		String result = cluster.invoke(invocation);
 		return result;
 	}
 
